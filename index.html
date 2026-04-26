@@ -107,6 +107,60 @@
             color: #666;
             font-size: 14px;
         }
+        #mobileControls {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            padding: 0 20px;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .mobile-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(233, 69, 96, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .mobile-btn:active {
+            background: rgba(233, 69, 96, 0.9);
+            transform: scale(0.95);
+        }
+        .mobile-dpad {
+            display: flex;
+            gap: 10px;
+        }
+        .mobile-actions {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        .mobile-btn.jump {
+            width: 90px;
+            height: 90px;
+            font-size: 20px;
+        }
+        @media (max-width: 900px) {
+            #mobileControls {
+                display: flex;
+            }
+            #controls {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,6 +181,12 @@
             <button class="btn" onclick="startGame()">Заново</button>
         </div>
         <div id="controls">Управление: СТРЕЛКИ / WASD | Прыжок: ПРОБЕЛ</div>
+        <div id="mobileControls">
+            <div class="mobile-dpad">
+                <button class="mobile-btn" id="btnLeft">◀</button>
+                <button class="mobile-btn" id="btnRight">▶</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -192,6 +252,33 @@
         document.addEventListener('keyup', (e) => {
             keys[e.code] = false;
         });
+
+        function setupMobileButton(id, keyCode) {
+            const btn = document.getElementById(id);
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                keys[keyCode] = true;
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                keys[keyCode] = false;
+            });
+            btn.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                keys[keyCode] = false;
+            });
+        }
+
+        setupMobileButton('btnLeft', 'ArrowLeft');
+        setupMobileButton('btnRight', 'ArrowRight');
+
+        canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+        canvas.addEventListener('touchstart', (e) => {
+            if (gameRunning && player.grounded) {
+                player.velY = player.jumpPower;
+                player.grounded = false;
+            }
+        }, { passive: true });
 
         function startGame() {
             score = 0;
