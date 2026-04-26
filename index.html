@@ -58,6 +58,8 @@
             color: #e94560;
             margin-bottom: 20px;
             text-shadow: 0 0 20px rgba(233, 69, 96, 0.8);
+            text-align: center;
+            padding: 0 10px;
         }
         #startScreen p {
             font-size: 20px;
@@ -98,6 +100,7 @@
             font-size: 42px;
             color: #e94560;
             margin-bottom: 20px;
+            text-align: center;
         }
         #gameOver p {
             font-size: 24px;
@@ -114,23 +117,19 @@
         #mobileControls {
             display: none;
             position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            padding: 0 20px;
-            justify-content: space-between;
-            align-items: flex-end;
+            bottom: 15px;
+            right: 15px;
             z-index: 5;
             pointer-events: none;
         }
         .mobile-btn {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: rgba(233, 69, 96, 0.6);
             border: 2px solid rgba(255, 255, 255, 0.5);
             color: #fff;
-            font-size: 28px;
+            font-size: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -145,17 +144,7 @@
         }
         .mobile-dpad {
             display: flex;
-            gap: 10px;
-        }
-        .mobile-actions {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        .mobile-btn.jump {
-            width: 90px;
-            height: 90px;
-            font-size: 20px;
+            gap: 8px;
         }
         @media (max-width: 900px) {
             #mobileControls {
@@ -163,6 +152,27 @@
             }
             #controls {
                 display: none;
+            }
+            #startScreen h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            #startScreen p {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            .btn {
+                padding: 10px 30px;
+                font-size: 18px;
+            }
+            #gameOver h2 {
+                font-size: 28px;
+            }
+            #gameOver p {
+                font-size: 18px;
+            }
+            #ui {
+                font-size: 14px;
             }
         }
     </style>
