@@ -21,11 +21,31 @@
         }
         #gameContainer {
             position: relative;
+            max-width: 100vw;
+            max-height: 100vh;
         }
         canvas {
             border: 3px solid #e94560;
             border-radius: 5px;
             box-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+        #rotateMsg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            color: #e94560;
+            font-size: 24px;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
         }
         #ui {
             position: absolute;
@@ -187,6 +207,7 @@
                 <button class="mobile-btn" id="btnRight">▶</button>
             </div>
         </div>
+        <div id="rotateMsg">📱 Поверните телефон горизонтально</div>
     </div>
 
     <script>
@@ -279,6 +300,40 @@
                 player.grounded = false;
             }
         }, { passive: true });
+
+        const rotateMsg = document.getElementById('rotateMsg');
+
+        function checkOrientation() {
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobile && window.innerHeight > window.innerWidth) {
+                rotateMsg.style.display = 'flex';
+            } else {
+                rotateMsg.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', checkOrientation);
+        checkOrientation();
+
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+        }
+
+        function resizeCanvas() {
+            const ratio = 800 / 500;
+            let w = window.innerWidth;
+            let h = window.innerHeight;
+            if (w / h > ratio) {
+                w = h * ratio;
+            } else {
+                h = w / ratio;
+            }
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
         function startGame() {
             score = 0;
